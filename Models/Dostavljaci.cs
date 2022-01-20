@@ -11,7 +11,7 @@ namespace Models
     {
         [Key]
         public int ID { get; set; }
-
+        [MaxLength(20)]
         public string Ime { get; set; }
 
         public virtual List<Dostave> Dostave { get; set; } 

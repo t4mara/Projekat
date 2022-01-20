@@ -9,11 +9,14 @@ namespace Models {
         [Key]
         public int ID { get; set; }
 
+        [MaxLength(20)]
         public string Ime { get; set; }
-
+        
+        [MaxLength(20)]
         public string Grad { get; set; }
         public Menadzer Menadzer { get; set; }
 
+        [Range(1,10000)]
         public int BrojCveca { get; set; }
 
 

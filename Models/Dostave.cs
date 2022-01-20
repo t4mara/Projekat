@@ -16,7 +16,7 @@ namespace Models
 [Required]
         public Cvecare Cvecare { get; set; }
 
-
+[Range(1,10000)]
         public int BrojCveca { get; set; }
     }
 }
