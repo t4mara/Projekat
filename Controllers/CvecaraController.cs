@@ -282,15 +282,16 @@ namespace Projekat.Controllers
         [HttpPut]
         public async Task<ActionResult> PromeniCvecaru(int ID, string Ime, string Grad, int BrojCveca)
         {
+            var cvecare = await kontekst.Cvecare.FindAsync(ID);
+
+            if (cvecare == null || cvecare.ID <= 0)
+            {
+                return BadRequest("Ne postoji!");
+            }
+
             if (Ime.Length > 20 || Grad.Length > 20 || BrojCveca > 10000)
             {
                 return BadRequest("Neprikladni argumenti");
-            }
-            var cvecare = await kontekst.Cvecare.FindAsync(ID);
-
-            if (cvecare.ID <= 0)
-            {
-                return BadRequest("Pogrešan ID!");
             }
 
             // ... Ostale provere, Naziv
@@ -316,16 +317,18 @@ namespace Projekat.Controllers
         [HttpPut]
         public async Task<ActionResult> PromeniDostavljaca(int ID, string Ime)
         {
+            var dostavljaci = await kontekst.Dostavljaci.FindAsync(ID);
+
+            if (dostavljaci == null || dostavljaci.ID <= 0)
+            {
+                return BadRequest("Ne postoji!");
+            }
+
             if (Ime.Length > 20)
             {
                 return BadRequest("Neprikladni argumenti");
             }
-            var dostavljaci = await kontekst.Dostavljaci.FindAsync(ID);
 
-            if (dostavljaci.ID <= 0)
-            {
-                return BadRequest("Pogrešan ID!");
-            }
 
             // ... Ostale provere, Naziv
 
@@ -347,16 +350,18 @@ namespace Projekat.Controllers
         [HttpPut]
         public async Task<ActionResult> PromeniDostavu(int ID, int IDCvecare, int IDDostavljaca, int BrojCveca)
         {
+           var dostava = await kontekst.Dostave.FindAsync(ID);
+
+            if (dostava == null || dostava.ID <= 0)
+            {
+                return BadRequest("Pogrešan ID!");
+            }
+
             if (BrojCveca > 10000 || IDDostavljaca <= 0 || IDCvecare <= 0)
             {
                 return BadRequest("Lose");
             }
-            var dostava = await kontekst.Dostave.FindAsync(ID);
 
-            if (dostava.ID <= 0)
-            {
-                return BadRequest("Pogrešan ID!");
-            }
 
             // ... Ostale provere, Naziv
 
@@ -384,16 +389,16 @@ namespace Projekat.Controllers
         [HttpPut]
         public async Task<ActionResult> PromeniMenadzera(int ID, string JMBG, string Ime, string Prezime, string Email, string Broj, int CvecaraID)
         {
+            var menadzer = await kontekst.Menadzer.FindAsync(ID);
+
+            if (menadzer == null || menadzer.ID <= 0)
+            {
+                return BadRequest("Pogrešan ID!");
+            }
+
             if (Ime.Length > 20 || Prezime.Length > 20 || JMBG.Length != 13 || !(double.TryParse(JMBG, out _)) ||  Broj.Length != 10 || !(double.TryParse(Broj, out _)) || CvecaraID <= 0)
             {
                 return BadRequest("Lose");
-            }
-
-            var menadzer = await kontekst.Menadzer.FindAsync(ID);
-
-            if (menadzer.ID <= 0)
-            {
-                return BadRequest("Pogrešan ID!");
             }
 
             // ... Ostale provere, Naziv
@@ -425,16 +430,18 @@ namespace Projekat.Controllers
         [HttpPut]
         public async Task<ActionResult> PromeniZaposlenog(int ID, int IDCvecare, string JMBG, string Ime, string Prezime, string Grad)
         {
+            var zaposleni = await kontekst.Zaposleni.FindAsync(ID);
+
+            if (zaposleni == null || zaposleni.ID <= 0)
+            {
+                return BadRequest("Pogrešan ID!");
+            }
+
             if (Ime.Length > 20 || Prezime.Length > 20 || JMBG.Length != 13 || !(double.TryParse(JMBG, out _)) || Grad.Length > 20 || IDCvecare <= 0)
             {
                 return BadRequest("Lose");
             }
-            var zaposleni = await kontekst.Zaposleni.FindAsync(ID);
 
-            if (zaposleni.ID <= 0)
-            {
-                return BadRequest("Pogrešan ID!");
-            }
 
             // ... Ostale provere, Naziv
 
@@ -588,6 +595,10 @@ namespace Projekat.Controllers
             try
             {
                 var Cvecare = await kontekst.Cvecare.FindAsync(id);
+             if (Cvecare == null)
+            {
+                return BadRequest("Pogrešan ID!");
+            }
                 kontekst.Cvecare.Remove(Cvecare);
                 await kontekst.SaveChangesAsync();
                 return Ok($"Uspešno izbrisana Cvecare: {Cvecare.Ime}");
@@ -610,6 +621,10 @@ namespace Projekat.Controllers
             try
             {
                 var dostavljac = await kontekst.Dostavljaci.FindAsync(id);
+            if (dostavljac == null)
+            {
+                return BadRequest("Pogrešan ID!");
+            }
                 kontekst.Dostavljaci.Remove(dostavljac);
                 await kontekst.SaveChangesAsync();
                 return Ok($"Uspešno izbrisan dostavljac: {dostavljac.Ime}");
@@ -632,6 +647,10 @@ namespace Projekat.Controllers
             try
             {
                 var dostava = await kontekst.Dostave.FindAsync(id);
+            if (dostava == null)
+            {
+                return BadRequest("Pogrešan ID!");
+            }
                 kontekst.Dostave.Remove(dostava);
                 await kontekst.SaveChangesAsync();
                 return Ok($"Uspešno izbrisana dostava: {dostava.ID}");
@@ -654,6 +673,10 @@ namespace Projekat.Controllers
             try
             {
                 var menadzer = await kontekst.Menadzer.FindAsync(id);
+                             if (menadzer == null)
+            {
+                return BadRequest("Pogrešan ID!");
+            }
                 kontekst.Menadzer.Remove(menadzer);
                 await kontekst.SaveChangesAsync();
                 return Ok($"Uspešno izbrisan menadzer: {menadzer.Ime}");
@@ -676,6 +699,10 @@ namespace Projekat.Controllers
             try
             {
                 var zaposleni = await kontekst.Zaposleni.FindAsync(id);
+                             if (zaposleni == null)
+            {
+                return BadRequest("Pogrešan ID!");
+            }
                 kontekst.Zaposleni.Remove(zaposleni);
                 await kontekst.SaveChangesAsync();
                 return Ok($"Uspešno izbrisan zaposleni: {zaposleni.Ime}");
