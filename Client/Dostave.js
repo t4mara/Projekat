@@ -66,23 +66,5 @@ export class Dostave{
         host.appendChild(tabela);
         tabela.setAttribute("border", 2);
     }
-    ucitajDostavu(ID){
-        fetch("https://localhost:5001/Cvecara/DobijDostavu/"+ID,{ method: "GET"}).then(s=>{
-            if(s.ok){s.json().then(data=>{
-                data.forEach(s=>{
-                    let cv = new Dostave(s.ID, s.BrojCveca, s.IDDostavljaca);
-                    cv.crtaj(document.body);
-                })
-            })}
-        })
-    }
-    obrisiDostavu(ID){
-        fetch("https://localhost:5001/Cvecara/IzbrisiDostavu/"+ID,{ method: "DELETE"}).then(s=>{
-            if(s.ok){s.json().then(data=>{
-                data.forEach(s=>{
-                    let cv = new Dostave();
-                })
-            })}
-        })
-    }
+
 }

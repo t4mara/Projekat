@@ -7,7 +7,6 @@ export class Dostavljaci{
         this.id = id;
         this.ime = ime;
     }
-    ime(){ return this.ime; }
     crtaj(host){
         if(!host)
         throw new Error("Host je nedefinisan!");
