@@ -33,15 +33,7 @@ namespace Projekat
                 options.UseSqlServer(Configuration.GetConnectionString("CvecareCS"));
             }
             );
-            services.AddControllers(options => options.EnableEndpointRouting = false);
-            
-            
-            services.AddMvc().AddJsonOptions(options => {
-                options.JsonSerializerOptions.WriteIndented = true;
-                options.JsonSerializerOptions.PropertyNamingPolicy = null;
-            }).AddXmlSerializerFormatters();
-            services.AddRazorPages();
-            
+            services.AddControllers();            
 
             services.AddSwaggerGen(c =>
             {
@@ -52,7 +44,19 @@ namespace Projekat
             {
                 options.AddPolicy("CORSAll", policy => 
                 {
-                    policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                        policy.WithOrigins(new string[]
+                        {
+                            "http://localhost:8080",
+                            "https://localhost:8080",
+                            "http://127.0.0.1:8080",
+                            "https://127.0.0.1:8080",
+                            "http://localhost:5500",
+                            "https://localhost:5500",
+                            "http://127.0.0.1:5500",
+                            "https://127.0.0.1:5500"
+
+                        }).AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
 
                 options.AddPolicy("CORSUser", policy =>
@@ -79,13 +83,8 @@ namespace Projekat
 
             app.UseAuthorization();
             
-            app.UseMvc();
-
-            app.UseStaticFiles();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
         }
