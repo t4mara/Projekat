@@ -10,7 +10,7 @@ using Models;
 namespace Projekat.Migrations
 {
     [DbContext(typeof(CvecaraKontekst))]
-    [Migration("20220120194608_v1")]
+    [Migration("20220120231709_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,10 +32,12 @@ namespace Projekat.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Grad")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Ime")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("ID");
 
@@ -75,7 +77,8 @@ namespace Projekat.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("Ime")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("ID");
 
@@ -90,7 +93,8 @@ namespace Projekat.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("Broj")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("CvecaraID")
                         .HasColumnType("int");
@@ -99,13 +103,16 @@ namespace Projekat.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ime")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("JMBG")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("Prezime")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("ID");
 
@@ -126,16 +133,20 @@ namespace Projekat.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Grad")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Ime")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("JMBG")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("Prezime")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("ID");
 

@@ -12,8 +12,8 @@ namespace Projekat.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Ime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Grad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Ime = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Grad = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     BrojCveca = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -27,7 +27,7 @@ namespace Projekat.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Ime = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Ime = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,11 +40,11 @@ namespace Projekat.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    JMBG = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Ime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Prezime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JMBG = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: true),
+                    Ime = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Prezime = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Broj = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Broj = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     CvecaraID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -64,10 +64,10 @@ namespace Projekat.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    JMBG = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Ime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Prezime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Grad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JMBG = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: true),
+                    Ime = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Prezime = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Grad = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     CvecareID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
