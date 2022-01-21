@@ -49,14 +49,14 @@ export class Dostave{
 
         el = document.createElement("td");
         if(this.cvecara != null)
-        el.innerHTML=this.cvecara.Ime;
+        el.innerHTML=this.cvecara.ime;
         else
         el.innerHTML="Nema";
         red2.appendChild(el);
 
         el = document.createElement("td");
         if(this.dostavljac != null)
-        el.innerHTML=this.dostavljac.Ime;
+        el.innerHTML=this.dostavljac.ime;
         else
         el.innerHTML="Nema";
         red2.appendChild(el);

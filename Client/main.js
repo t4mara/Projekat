@@ -13,7 +13,7 @@ fetch("https://localhost:5001/Cvecara/DobijDostavljace/",{ method: "GET"}).then(
     if(s.ok){
         s.json().then(p=>{
             p.forEach( pp=>{
-            var cv = new Dostavljaci(pp.ID, pp.Ime);
+            var cv = new Dostavljaci(pp.id, pp.ime);
             oopptt = document.createElement("option");
             oopptt.value = cv.id;
             oopptt.text = cv.ime;
@@ -32,7 +32,7 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
     if(s.ok){
         s.json().then(p=>{
             p.forEach( pp=>{
-            var cv = new Cvecare(pp.ID, pp.Grad, pp.Ime, pp.BrojCveca);
+            var cv = new Cvecare(pp.id, pp.grad, pp.ime, pp.brojCveca);
             prom = document.createElement("option");
             prom.value = cv.id;
             prom.text = cv.ime;
@@ -54,7 +54,7 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
     if(s.ok){
         s.json().then(p=>{
             p.forEach( pp=>{
-            var cv = new Cvecare(pp.id, pp.Grad, pp.ime, pp.BrojCveca);
+            var cv = new Cvecare(pp.id, pp.grad, pp.ime, pp.brojCveca);
             var asss = document.createElement("option");
             asss.value = cv.id;
             asss.text = cv.ime;
@@ -67,7 +67,7 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
         if(s.ok){
             s.json().then(p=>{
                 p.forEach( pp=>{
-                var cv = new Cvecare(pp.ID, pp.Grad, pp.Ime, pp.BrojCveca);
+                var cv = new Cvecare(pp.id, pp.grad, pp.ime, pp.brojCveca);
                 var askjdskdf = document.createElement("option");
                 askjdskdf.value = cv.id;
                 askjdskdf.text = cv.ime;
@@ -80,7 +80,7 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
             if(s.ok){
                 s.json().then(p=>{
                     p.forEach( pp=>{
-                    var cv = new Cvecare(pp.ID, pp.Grad, pp.Ime, pp.BrojCveca);
+                    var cv = new Cvecare(pp.id, pp.grad, pp.ime, pp.brojCveca);
                     var askj = document.createElement("option");
                     askj.value = cv.id;
                     askj.text = cv.ime;
@@ -99,7 +99,7 @@ fetch("https://localhost:5001/Cvecara/DobijDostavljace/",{ method: "GET"}).then(
     if(s.ok){
         s.json().then(p=>{
             p.forEach( pp=>{
-            var cv = new Dostavljaci(pp.ID, pp.Ime);
+            var cv = new Dostavljaci(pp.id, pp.ime);
             prom4 = document.createElement("option");
             prom4.value = cv.id;
             prom4.text = cv.ime;
@@ -117,7 +117,7 @@ fetch("https://localhost:5001/Cvecara/DobijDostave/",{ method: "GET"}).then(s=>{
     if(s.ok){
         s.json().then(p=>{
             p.forEach( pp=>{
-            var cv = new Dostave(pp.ID, pp.BrojCveca, pp.Dostavljaci, pp.Cvecare);
+            var cv = new Dostave(pp.id, pp.brojCveca, pp.dostavljaci, pp.cvecare);
             prom5 = document.createElement("option");
             prom5.value = cv.id;
             prom5.text = cv.brojcveca;
@@ -135,7 +135,7 @@ fetch("https://localhost:5001/Cvecara/DobijMenadzere/",{ method: "GET"}).then(s=
     if(s.ok){
         s.json().then(p=>{
             p.forEach( pp=>{
-            var cv = new Menadzer(pp.ID, pp.JMBG, pp.Ime, pp.Prezime, pp.Email, pp.Broj, pp.CvecaraID);
+            var cv = new Menadzer(pp.id, pp.jmbg, pp.ime, pp.prezime, pp.email, pp.broj, pp.cvecaraID);
             prom7 = document.createElement("option");
             prom7.value = cv.id;
             prom7.text = cv.jmbg;
@@ -153,7 +153,7 @@ fetch("https://localhost:5001/Cvecara/DobijZaposlene/",{ method: "GET"}).then(s=
     if(s.ok){
         s.json().then(p=>{
             p.forEach( pp=>{
-            var cv = new Zaposleni(pp.ID, pp.JMBG, pp.Ime, pp.Prezime, pp.Grad, pp.Cvecara);
+            var cv = new Zaposleni(pp.id, pp.jmbg, pp.ime, pp.prezime, pp.grad, pp.cvecara);
             prom9 = document.createElement("option");
             prom9.value = cv.id;
             prom9.text = cv.jmbg;
@@ -177,7 +177,7 @@ btn.onclick= function(){
     fetch("https://localhost:5001/Cvecara/DodajCvecaru/"+jedan.value+"/"+dva.value+"/"+tri.value,{ method: "POST"}).then(s=>{
         if(s.ok){
             s.json().then(data=>{
-                let cv = new Cvecare(data.ID, data.Grad, data.Ime, data.BrojCveca);
+                let cv = new Cvecare(data.id, data.grad, data.ime, data.brojCveca);
                 cv.crtaj(mesto2);
             })
         }})
@@ -191,7 +191,7 @@ function dobij(){
         if(s.ok){
             /*var teloTabele = this.obrisiPrethodniSadrzaj();*/
             s.json().then(s=>{
-                let cv = new Cvecare(s.ID, s.Grad, s.Ime, s.BrojCveca);
+                let cv = new Cvecare(s.id, s.grad, s.ime, s.brojCveca);
                 console.log(cv);
                 cv.crtaj(mesto);
             })
@@ -208,7 +208,7 @@ btn3.onclick = function(){
         if(s.ok){
             /*var teloTabele = this.obrisiPrethodniSadrzaj();*/
             s.json().then(s=>{
-                let cv = new Cvecare(s.ID, s.Grad, s.Ime, s.BrojCveca);
+                let cv = new Cvecare(s.id, s.grad, s.ime, s.brojCveca);
             })
         }})
 }
@@ -237,7 +237,7 @@ btn5.onclick= function(){
     fetch("https://localhost:5001/Cvecara/DodajDostavljaca/"+cetiri.value,{ method: "POST"}).then(s=>{
         if(s.ok){
             s.json().then(data=>{
-                let cv = new Dostavljaci(data.ID, data.Ime);
+                let cv = new Dostavljaci(data.id, data.ime);
             })
         }})
 }
@@ -247,7 +247,7 @@ function dobijDostlj(){
         if(s.ok){
             /*var teloTabele = this.obrisiPrethodniSadrzaj();*/
             s.json().then(s=>{
-                let cv = new Dostavljaci(s.ID, s.Ime);
+                let cv = new Dostavljaci(s.id, s.ime);
                 cv.crtaj(mestoDva);
             })
         }})
@@ -261,7 +261,7 @@ btn7.onclick = function(){
     fetch("https://localhost:5001/Cvecara/IzbrisiDostavljaca/"+prom3.options[prom3.selectedIndex].value,{ method: "DELETE"}).then(s=>{
         if(s.ok){
             s.json().then(s=>{
-                let cv = new Dostavljaci(s.ID, s.Ime);
+                let cv = new Dostavljaci(s.id, s.ime);
             })
         }})
 }
@@ -271,7 +271,7 @@ btn8.onclick = function(){
     fetch("https://localhost:5001/Cvecara/PromeniDostavljaca/"+prom3.options[prom3.selectedIndex].value+"/"+cetiri.value,{ method: "PUT"}).then(s=>{
         if(s.ok){
             s.json().then(s=>{
-                let cv = new Dostavljaci(s.ID, s.Ime);
+                let cv = new Dostavljaci(s.id, s.ime);
             })
         }})
         dobijDostlj();
@@ -293,7 +293,7 @@ btn9.onclick= function(){
     fetch("https://localhost:5001/Cvecara/DodajZaposlenog/"+pompom.options[pompom.selectedIndex].value+"/"+pet.value+"/"+sedam.value+"/"+osam.value+"/"+sest.value,{ method: "POST"}).then(s=>{
         if(s.ok){
             s.json().then(data=>{
-                let cv = new Zaposleni(data.ID, data.JMBG, data.Ime, data.Prezime, data.Grad, data.Cvecare);
+                let cv = new Zaposleni(data.id, data.jmbg, data.ime, data.prezime, data.grad, data.cvecare);
             })
         }})
 }
@@ -303,7 +303,7 @@ function dobijZap(){
         if(s.ok){
             /*var teloTabele = this.obrisiPrethodniSadrzaj();*/
             s.json().then(s=>{
-                let cv = new Zaposleni(s.ID, s.JMBG, s.Ime, s.Prezime, s.Grad, s.Cvecare);
+                let cv = new Zaposleni(s.id, s.jmbg, s.ime, s.prezime, s.grad, s.cvecare);
                 cv.crtaj(mestoTri);
             })
         }})
@@ -317,7 +317,7 @@ btn11.onclick = function(){
     fetch("https://localhost:5001/Cvecara/IzbrisiZaposlenog/"+prom10.options[prom10.selectedIndex].value,{ method: "DELETE"}).then(s=>{
         if(s.ok){
             s.json().then(s=>{
-                let cv = new Zaposleni(s.ID, s.JMBG, s.Ime, s.Prezime, s.Grad, s.Cvecare);
+                let cv = new Zaposleni(s.id, s.jmbg, s.ime, s.prezime, s.grad, s.cvecare);
             })
         }})
 }
@@ -327,7 +327,7 @@ btn12.onclick = function(){
     fetch("https://localhost:5001/Cvecara/PromeniZaposlenog/"+prom10.options[prom10.selectedIndex].value+"/"+pompom.options[pompom.selectedIndex].value+"/"+pet.value+"/"+sedam.value+"/"+osam.value+"/"+sest.value,{ method: "PUT"}).then(s=>{
         if(s.ok){
             s.json().then(s=>{
-                let cv = new Zaposleni(s.ID, s.JMBG, s.Ime, s.Prezime, s.Grad, s.Cvecare);
+                let cv = new Zaposleni(s.id, s.jmbg, s.ime, s.prezime, s.grad, s.cvecare);
                 cv.crtaj(mestoTri);
             })
         }})
@@ -350,7 +350,7 @@ btn13.onclick= function(){
     fetch("https://localhost:5001/Cvecara/DodajMenadzera/"+devet.value+"/"+deset.value+"/"+jedanaest.value+"/"+dvanaest.value+"/"+trinaest.value+"/"+pompom2.options[pompom2.selectedIndex].value,{ method: "POST"}).then(s=>{
         if(s.ok){
             s.json().then(data=>{
-                let cv = new Menadzer(data.ID, data.JMBG, data.Ime, data.Prezime, data.Email, data.Broj, data.CvecaraID, data.Cvecare);
+                let cv = new Menadzer(data.id, data.jmbg, data.ime, data.prezime, data.email, data.broj, data.cvecaraID, data.cvecare);
             })
         }})
 }
@@ -360,7 +360,9 @@ function dobijMen(){
         if(s.ok){
             /*var teloTabele = this.obrisiPrethodniSadrzaj();*/
             s.json().then(s=>{
-                let cv = new Menadzer(s.ID, s.JMBG, s.Ime, s.Prezime, s.Email, s.Broj, s.CvecaraID, s.Cvecare);
+                console.log(s);
+                let cv = new Menadzer(s.id, s.jmbg, s.ime, s.prezime, s.email, s.broj, s.cvecaraID, s.cvecare);
+                console.log(cv);
                 cv.crtaj(mestoPet);
             })
         }})
@@ -374,7 +376,7 @@ btn15.onclick = function(){
     fetch("https://localhost:5001/Cvecara/IzbrisiMenadzera/"+prom8.options[prom8.selectedIndex].value,{ method: "DELETE"}).then(s=>{
         if(s.ok){
             s.json().then(s=>{
-                let cv = new Menadzer(s.ID, s.JMBG, s.Ime, s.Prezime, s.Email, s.Broj, s.CvecaraID, s.Cvecare);
+                let cv = new Menadzer(s.id, s.jmbg, s.ime, s.prezime, s.email, s.broj, s.cvecaraID, s.cvecare);
             })
         }})
 }
@@ -384,7 +386,8 @@ btn16.onclick = function(){
     fetch("https://localhost:5001/Cvecara/PromeniMenadzera/"+prom8.options[prom8.selectedIndex].value+"/"+devet.value+"/"+deset.value+"/"+jedanaest.value+"/"+dvanaest.value+"/"+trinaest.value+"/"+pompom2.options[pompom2.selectedIndex].value,{ method: "PUT"}).then(s=>{
         if(s.ok){
             s.json().then(s=>{
-                let cv = new Menadzer(s.ID, s.JMBG, s.Ime, s.Prezime, s.Email, s.Broj, s.CvecaraID, s.Cvecare);
+                
+                let cv = new Menadzer(s.id, s.jmbg, s.ime, s.prezime, s.email, s.broj, s.cvecaraID, s.cvecare);
                 cv.crtaj(mestoPet);
             })
         }})
@@ -403,7 +406,7 @@ btn17.onclick= function(){
     fetch("https://localhost:5001/Cvecara/DodajDostavu/"+pompom3.options[pompom3.selectedIndex].value+"/"+ssdss.options[ssdss.selectedIndex].value+"/"+cetrnaest.value,{ method: "POST"}).then(s=>{
         if(s.ok){
             s.json().then(data=>{
-                let cv = new Dostave(data.ID, data.BrojCveca, data.Dostavljaci, data.Cvecare);
+                let cv = new Dostave(data.id, data.brojCveca, data.dostavljaci, data.cvecare);
             })
         }})
 }
@@ -413,7 +416,7 @@ function dobijDost(){
         if(s.ok){
             /*var teloTabele = this.obrisiPrethodniSadrzaj();*/
             s.json().then(s=>{
-                let cv = new Dostave(s.ID, s.BrojCveca, s.Dostavljaci, s.Cvecare);
+                let cv = new Dostave(s.id, s.brojCveca, s.dostavljaci, s.cvecare);
                 cv.crtaj(mestoCetiri);
             })
         }})
@@ -427,7 +430,7 @@ btn19.onclick = function(){
     fetch("https://localhost:5001/Cvecara/IzbrisiDostavu/"+prom6.options[prom6.selectedIndex].value,{ method: "DELETE"}).then(s=>{
         if(s.ok){
             s.json().then(s=>{
-                let cv = new Dostave(s.ID, s.BrojCveca, s.Dostavljaci, s.Cvecare);
+                let cv = new Dostave(s.id, s.brojCveca, s.dostavljaci, s.cvecare);
             })
         }})
 }
@@ -437,7 +440,7 @@ btn20.onclick = function(){
     fetch("https://localhost:5001/Cvecara/PromeniDostavu/"+prom6.options[prom6.selectedIndex].value+"/"+pompom3.options[pompom3.selectedIndex].value+"/"+ssdss.options[ssdss.selectedIndex].value+"/"+cetrnaest.value,{ method: "PUT"}).then(s=>{
         if(s.ok){
             s.json().then(s=>{
-                let cv = new Dostave(s.ID, s.BrojCveca, s.Dostavljaci, s.Cvecare);
+                let cv = new Dostave(s.id, s.brojCveca, s.dostavljaci, s.cvecare);
                 cv.crtaj(mestoCetiri);
             })
         }})

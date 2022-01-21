@@ -542,6 +542,7 @@ namespace Projekat.Controllers
             {
                 return Ok(await kontekst.Menadzer.Where(acc=>acc.ID==id).Select(p=>
                 new{
+                    ID = p.ID,
                     JMBG = p.JMBG,
                     Ime = p.Ime,
                     Prezime = p.Prezime,
@@ -568,6 +569,7 @@ namespace Projekat.Controllers
             {
                 return Ok(await kontekst.Zaposleni.Where(acc=>acc.ID==id).Select(p=>
                 new{
+                    ID = p.ID,
                     JMBG = p.JMBG,
                     Ime = p.Ime,
                     Prezime = p.Prezime,

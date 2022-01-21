@@ -78,7 +78,7 @@ export class Menadzer{
 
         let el6=document.createElement("td");
         if(this.cvecara != null)
-        el6.innerHTML=this.cvecara.Ime;
+        el6.innerHTML=this.cvecara.ime;
         else
         el6.innerHTML="Nema";
         red2.appendChild(el6);

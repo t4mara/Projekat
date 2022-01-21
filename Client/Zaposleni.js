@@ -68,7 +68,7 @@ export class Zaposleni{
 
         let el5=document.createElement("td");
         if(this.cvecara != null)
-        el5.innerHTML=this.cvecara.Ime;
+        el5.innerHTML=this.cvecara.ime;
         else
         el5.innerHTML="Nema";
         red2.appendChild(el5);
