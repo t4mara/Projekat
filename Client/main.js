@@ -82,7 +82,7 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
                     p.forEach( pp=>{
                     var cv = new Cvecare(pp.ID, pp.Grad, pp.Ime, pp.BrojCveca);
                     let askj = document.createElement("option");
-                    askj.value = pp.ID;
+                    askj.value = cv.id;
                     askj.text = cv.ime;
                     pompom2.appendChild(askj);
 })
@@ -192,6 +192,7 @@ function dobij(){
             /*var teloTabele = this.obrisiPrethodniSadrzaj();*/
             s.json().then(s=>{
                 let cv = new Cvecare(s.ID, s.Grad, s.Ime, s.BrojCveca);
+                console.log(cv);
                 cv.crtaj(mesto);
             })
         }})

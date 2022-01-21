@@ -131,7 +131,6 @@ namespace Projekat.Controllers
         [HttpPost]
         public async Task<ActionResult> DodajCvecaru (string Ime, string Grad, int BrojCveca){
             Cvecare cvecare = new Cvecare();
-            if(Ime.Length < 20)
             cvecare.Ime = Ime;
             cvecare.Grad = Grad;
             cvecare.BrojCveca = BrojCveca;
@@ -150,7 +149,7 @@ namespace Projekat.Controllers
             {
                 kontekst.Cvecare.Add(cvecare);
                 await kontekst.SaveChangesAsync();
-                return Ok($"Cvecara je dodata!");
+                return Ok($"Cvecara je dodata! ID je {cvecare.ID} {cvecare.BrojCveca} {cvecare.Ime}");
             }
             catch (Exception e)
             {
