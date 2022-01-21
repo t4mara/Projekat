@@ -54,8 +54,8 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
     if(s.ok){
         s.json().then(p=>{
             p.forEach( pp=>{
-            var cv = new Cvecare(pp.ID, pp.Grad, pp.Ime, pp.BrojCveca);
-            let asss = document.createElement("option");
+            var cv = new Cvecare(pp.id, pp.Grad, pp.ime, pp.BrojCveca);
+            var asss = document.createElement("option");
             asss.value = cv.id;
             asss.text = cv.ime;
             pompom3.appendChild(asss);
@@ -68,7 +68,7 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
             s.json().then(p=>{
                 p.forEach( pp=>{
                 var cv = new Cvecare(pp.ID, pp.Grad, pp.Ime, pp.BrojCveca);
-                let askjdskdf = document.createElement("option");
+                var askjdskdf = document.createElement("option");
                 askjdskdf.value = cv.id;
                 askjdskdf.text = cv.ime;
                 pompom.appendChild(askjdskdf);
@@ -81,7 +81,7 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
                 s.json().then(p=>{
                     p.forEach( pp=>{
                     var cv = new Cvecare(pp.ID, pp.Grad, pp.Ime, pp.BrojCveca);
-                    let askj = document.createElement("option");
+                    var askj = document.createElement("option");
                     askj.value = cv.id;
                     askj.text = cv.ime;
                     pompom2.appendChild(askj);
