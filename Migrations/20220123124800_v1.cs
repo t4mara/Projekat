@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Projekat.Migrations
 {
@@ -35,27 +36,26 @@ namespace Projekat.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Menadzer",
+                name: "Kupovina",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    JMBG = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: true),
-                    Ime = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Prezime = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Broj = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    CvecaraID = table.Column<int>(type: "int", nullable: false)
+                    ImeKupca = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Datum = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BrojKupljenogCveca = table.Column<int>(type: "int", nullable: false),
+                    PotrosenNovac = table.Column<double>(type: "float", nullable: false),
+                    CvecareID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Menadzer", x => x.ID);
+                    table.PrimaryKey("PK_Kupovina", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Menadzer_Cvecare_CvecaraID",
-                        column: x => x.CvecaraID,
+                        name: "FK_Kupovina_Cvecare_CvecareID",
+                        column: x => x.CvecareID,
                         principalTable: "Cvecare",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,10 +119,9 @@ namespace Projekat.Migrations
                 column: "DostavljaciID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Menadzer_CvecaraID",
-                table: "Menadzer",
-                column: "CvecaraID",
-                unique: true);
+                name: "IX_Kupovina_CvecareID",
+                table: "Kupovina",
+                column: "CvecareID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Zaposleni_CvecareID",
@@ -136,7 +135,7 @@ namespace Projekat.Migrations
                 name: "Dostave");
 
             migrationBuilder.DropTable(
-                name: "Menadzer");
+                name: "Kupovina");
 
             migrationBuilder.DropTable(
                 name: "Zaposleni");

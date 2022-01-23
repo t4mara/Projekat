@@ -3,16 +3,14 @@ import { Dostave } from "./Dostave.js";
 import { Dostavljaci } from "./Dostavljaci.js";
 import { Zaposleni } from "./Zaposleni.js";
 
-export class Menadzer{
-    constructor(id, jmbg, ime, prezime, email, broj, cvecaraid, cvecara){
+export class Kupovina{
+    constructor(id, brojKupljenogCveca, imeKupca, datum, potrosenNovac, cvecare){
         this.id = id;
-        this.jmbg = jmbg;
-        this.ime = ime;
-        this.prezime = prezime;
-        this.email = email;
-        this.broj = broj;
-        this.cvecaraid = cvecaraid;
-        this.cvecara = cvecara;
+        this.brojKupljenogCveca = brojKupljenogCveca;
+        this.imeKupca = imeKupca;
+        this.datum = datum;
+        this.potrosenNovac = potrosenNovac;
+        this.cvecare = cvecare;
     }
     crtaj(host){
         if(!host)
@@ -25,60 +23,49 @@ export class Menadzer{
         }
 
         var tabela = document.createElement("table");
-        tabela.id = "tabeladobijcvece";
         var red = document.createElement("tr");
 
         let e= document.createElement("th");
-        e.innerHTML="JMBG";
+        e.innerHTML="Broj kupljenog cveca";
         red.appendChild(e);
 
         let f= document.createElement("th");
-        f.innerHTML="Ime";
+        f.innerHTML="Ime kupca";
         red.appendChild(f);
 
         let g= document.createElement("th");
-        g.innerHTML="Prezime";
+        g.innerHTML="Datum kupovine";
         red.appendChild(g);
 
         let h= document.createElement("th");
-        h.innerHTML="Email";
+        h.innerHTML="Potrosen novac";
         red.appendChild(h);
-
-        let i= document.createElement("th");
-        i.innerHTML="Broj";
-        red.appendChild(i);
 
         let j= document.createElement("th");
         j.innerHTML="Cvecara";
         red.appendChild(j);
 
-        this.Container = tabela;
-
         var red2 = document.createElement("tr");
 
         let el=document.createElement("td");
-        el.innerHTML=this.jmbg;
+        el.innerHTML=this.brojKupljenogCveca;
         red2.appendChild(el);
 
         let el2=document.createElement("td");
-        el2.innerHTML=this.ime;
+        el2.innerHTML=this.imeKupca;
         red2.appendChild(el2);
 
         let el3=document.createElement("td");
-        el3.innerHTML=this.prezime;
+        el3.innerHTML=this.datum;
         red2.appendChild(el3);
 
-        let el4=document.createElement("td");
-        el4.innerHTML=this.email;
-        red2.appendChild(el4);
-
         let el5=document.createElement("td");
-        el5.innerHTML=this.broj;
+        el5.innerHTML=this.potrosenNovac;
         red2.appendChild(el5);
 
         let el6=document.createElement("td");
-        if(this.cvecara != null)
-        el6.innerHTML=this.cvecara.ime;
+        if(this.cvecare != null)
+        el6.innerHTML=this.cvecare.ime;
         else
         el6.innerHTML="Nema";
         red2.appendChild(el6);

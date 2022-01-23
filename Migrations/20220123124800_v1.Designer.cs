@@ -10,7 +10,7 @@ using Models;
 namespace Projekat.Migrations
 {
     [DbContext(typeof(CvecaraKontekst))]
-    [Migration("20220120231709_v1")]
+    [Migration("20220123124800_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,41 +85,34 @@ namespace Projekat.Migrations
                     b.ToTable("Dostavljaci");
                 });
 
-            modelBuilder.Entity("Models.Menadzer", b =>
+            modelBuilder.Entity("Models.Kupovina", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Broj")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<int>("CvecaraID")
+                    b.Property<int>("BrojKupljenogCveca")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("CvecareID")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Ime")
+                    b.Property<DateTime>("Datum")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImeKupca")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("JMBG")
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
-
-                    b.Property<string>("Prezime")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<double>("PotrosenNovac")
+                        .HasColumnType("float");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CvecaraID")
-                        .IsUnique();
+                    b.HasIndex("CvecareID");
 
-                    b.ToTable("Menadzer");
+                    b.ToTable("Kupovina");
                 });
 
             modelBuilder.Entity("Models.Zaposleni", b =>
@@ -174,13 +167,11 @@ namespace Projekat.Migrations
                     b.Navigation("Dostavljaci");
                 });
 
-            modelBuilder.Entity("Models.Menadzer", b =>
+            modelBuilder.Entity("Models.Kupovina", b =>
                 {
                     b.HasOne("Models.Cvecare", "Cvecare")
-                        .WithOne("Menadzer")
-                        .HasForeignKey("Models.Menadzer", "CvecaraID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Kupovina")
+                        .HasForeignKey("CvecareID");
 
                     b.Navigation("Cvecare");
                 });
@@ -198,7 +189,7 @@ namespace Projekat.Migrations
                 {
                     b.Navigation("Dostave");
 
-                    b.Navigation("Menadzer");
+                    b.Navigation("Kupovina");
 
                     b.Navigation("Zaposleni");
                 });

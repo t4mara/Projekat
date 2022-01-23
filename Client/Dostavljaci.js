@@ -1,6 +1,6 @@
 import { Cvecare } from "./Cvecare.js";
 import { Dostave } from "./Dostave.js";
-import { Menadzer } from "./Menadzer.js";
+import { Kupovina } from "./Kupovina.js";
 import { Zaposleni } from "./Zaposleni.js";
 export class Dostavljaci{
     constructor(id, ime){
@@ -18,14 +18,11 @@ export class Dostavljaci{
         }
 
         var tabela = document.createElement("table");
-        tabela.id = "tabeladobijcvece";
         var red = document.createElement("tr");
 
         let e= document.createElement("th");
         e.innerHTML="Ime";
         red.appendChild(e);
-
-        this.Container = tabela;
 
         var red2 = document.createElement("tr");
 

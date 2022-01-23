@@ -14,7 +14,7 @@ namespace Models {
         
         [MaxLength(20)]
         public string Grad { get; set; }
-        public Menadzer Menadzer { get; set; }
+        public virtual List<Kupovina> Kupovina { get; set; }
 
         [Range(1,10000)]
         public int BrojCveca { get; set; }

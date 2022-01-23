@@ -1,6 +1,6 @@
 import { Dostave } from "./Dostave.js";
 import { Dostavljaci } from "./Dostavljaci.js";
-import { Menadzer } from "./Menadzer.js";
+import { Kupovina } from "./Kupovina.js";
 import { Zaposleni } from "./Zaposleni.js";
 
 export class Cvecare{
@@ -9,7 +9,6 @@ export class Cvecare{
         this.grad = grad;
         this.ime = ime;
         this.brojcveca = brojcveca;
-        this.Container = null;
     }
     crtaj(host){
         if(!host)
@@ -22,7 +21,6 @@ export class Cvecare{
         }
 
         var tabela = document.createElement("table");
-        tabela.id = "tabeladobijcvece";
         var red = document.createElement("tr");
 
         let e= document.createElement("th");
@@ -37,8 +35,6 @@ export class Cvecare{
         e= document.createElement("th");
         e.innerHTML="Broj Cveca";
         red.appendChild(e);
-
-        this.Container = tabela;
 
         var red2 = document.createElement("tr");
 
@@ -59,5 +55,4 @@ export class Cvecare{
         host.appendChild(tabela);
         tabela.setAttribute("border", 2);
     }
-
 }
