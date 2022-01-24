@@ -7,7 +7,13 @@ import { Zaposleni } from "./Zaposleni.js";
 
 /* CVECARE */
 
+function osvezi(){ window.location.reload(); }
+
+var bigDiv = document.createElement("div");
+bigDiv.className = "kontejner";
+
 var forma = document.createElement("div");
+forma.className = "formKlasa";
 var input1 = document.createElement("input");
 input1.type = "text";
 var input2 = document.createElement("input");
@@ -29,7 +35,7 @@ dugmeJedan.onclick= function(){
     fetch("https://localhost:5001/Cvecara/DodajCvecaru/"+input1.value+"/"+input2.value+"/"+input3.value,
     { method: "POST",
     headers:{
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
     },
     body: JSON.stringify({
         ime:input1.value,
@@ -37,16 +43,15 @@ dugmeJedan.onclick= function(){
         brojCveca:input3.value
     })
 }).then(s=>{
-        if(s.ok){
-                let cv = new Cvecare(0, input2.value, input1.value, input3.value);
-                cv.crtaj(prazno);
-                alert("Dodata cvecara!");
+            if(s.ok){
+                s.text().then(s=>{
+                    alert(s);
+                })
         }
         else{ alert(s.status); }
     }).catch(err=>{
         alert(err);
     });
-    return;
 }
 
 var dugmeDva = document.createElement("button");
@@ -55,8 +60,8 @@ dugmeDva.innerText = "Dobij cvecaru!";
 function dobij(){
     fetch("https://localhost:5001/Cvecara/DobijCvecaru/"+cvecSel.options[cvecSel.selectedIndex].value,{ method: "GET"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Cvecare(s.id, s.grad, s.ime, s.brojCveca);
+            s.json().then(data=>{
+                let cv = new Cvecare(data.id, data.grad, data.ime, data.brojCveca);
                 cv.crtaj(prazno);
             })
         }
@@ -75,17 +80,16 @@ dugmeTri.innerText = "Izmeni cvecaru!";
 dugmeTri.onclick = function(){
     fetch("https://localhost:5001/Cvecara/PromeniCvecaru/"+cvecSel.options[cvecSel.selectedIndex].value+"/"+input1.value+"/"+input2.value+"/"+input3.value,{ method: "PUT"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Cvecare(s.id, s.grad, s.ime, s.brojCveca);
-                cv.crtaj(prazno);
-                alert("Izmenjena cvecara!");
+            s.text().then(s=>{
+                dobij();
+                alert(s);
             })
         }
         else{ alert(s.status); }
     }).catch(err=>{
             alert(err);
         });
-        return;
+        cvecSelCrtaj();
 }
 
 var dugmeCetiri = document.createElement("button");
@@ -94,25 +98,22 @@ dugmeCetiri.innerText = "Obrisi cvecaru!";
 dugmeCetiri.onclick = function(){
     fetch("https://localhost:5001/Cvecara/IzbrisiCvecaru/"+cvecSel.options[cvecSel.selectedIndex].value,{ method: "DELETE"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Cvecare(s.id, s.grad, s.ime, s.brojCveca);
-                cv.crtaj(prazno);
-                alert("Izbrisana cvecara!");
+            s.text().then(s=>{
+                alert(s);
             })}
         else{ 
-            alert(s.status);
+            alert("Greska!");
             }
     }).catch(err=>{
             alert(err);
         });
-        return;
+        cvecSelCrtaj();
+        dobij();
 }
 
 var br1 = document.createElement("p");
 var br2 = document.createElement("p");
 var br3 = document.createElement("p");
-var br4 = document.createElement("p");
-var br5 = document.createElement("p");
 var br6 = document.createElement("p");
 var br7 = document.createElement("p");
 var br8 = document.createElement("p");
@@ -128,7 +129,18 @@ forma.appendChild(input3);
 forma.appendChild(br3);
 forma.appendChild(dugmeJedan);
 
+function cvecSelCrtaj(){
+    if(!cvecSelDiv)
+    throw new Error("Host je nedefinisan!");
+
+    var provera = cvecSelDiv.innerHTML;
+
+    if(provera != null){
+        cvecSelDiv.innerHTML = null;
+    }
+
 var cvecSel = document.createElement("select");
+cvecSel.className = "cvecSel";
 var prom = document.createElement("option");
 fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
     if(s.ok){
@@ -142,21 +154,26 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
         })
         })
     }});
-forma.appendChild(br4);
-forma.appendChild(cvecSel);
+    cvecSelDiv.appendChild(cvecSel);
+}
 
-forma.appendChild(br5);
+var cvecSelDiv = document.createElement("p");
+cvecSelCrtaj();
+var cvecSel = cvecSelDiv.childNodes[0];
+forma.appendChild(cvecSelDiv);
+
 forma.appendChild(dugmeDva);
 forma.appendChild(dugmeTri);
 forma.appendChild(dugmeCetiri);
 
 var prazno = document.createElement("p");
 forma.appendChild(prazno);
-document.body.appendChild(forma);
+bigDiv.appendChild(forma);
 
 /* KRAJ CVECARA, POCETAK DOSTAVLJACA */
 
 var forma2 = document.createElement("div");
+forma2.className = "formKlasa";
 var labela4 = document.createElement("label");
 labela4.innerHTML = "Ime: ";
 var input4 = document.createElement("input");
@@ -170,13 +187,11 @@ dugmePet.innerText = "Dodaj dostavljaca!";
 dugmePet.onclick= function(){
     fetch("https://localhost:5001/Cvecara/DodajDostavljaca/"+input4.value,{ method: "POST"}).then(s=>{
         if(s.ok){
-            s.json().then(data=>{
-                let cv = new Dostavljaci(data.id, data.ime);
-                cv.crtaj(prazno2);
-                alert("Dodat dostavljac!");
+            s.text().then(data=>{
+                alert(s);
             })
         }
-        else{ alert(s.status); }
+        else{ alert(s); }
     }).catch(err=>{
             alert(err);
         });
@@ -184,7 +199,20 @@ dugmePet.onclick= function(){
 }
 forma2.appendChild(dugmePet);
 
+var dostavljaciSelDiv = document.createElement("p");
+
+function dostavljaciSelCrtaj(){
+    if(!dostavljaciSelDiv)
+    throw new Error("Host je nedefinisan!");
+
+    var provera = dostavljaciSelDiv.innerHTML;
+
+    if(provera != null){
+        dostavljaciSelDiv.innerHTML = null;
+    }
+
 var dostavljaciSel = document.createElement("select");
+dostavljaciSel.className = "dostavljaciSel";
 fetch("https://localhost:5001/Cvecara/DobijDostavljace/",{ method: "GET"}).then(s=>{
     if(s.ok){
         s.json().then(p=>{
@@ -197,9 +225,11 @@ fetch("https://localhost:5001/Cvecara/DobijDostavljace/",{ method: "GET"}).then(
         })
         })
     }})
-forma2.appendChild(br7);
-forma2.appendChild(dostavljaciSel);
-forma2.appendChild(br8);
+dostavljaciSelDiv.appendChild(dostavljaciSel);
+}
+dostavljaciSelCrtaj();
+var dostavljaciSel = dostavljaciSelDiv.childNodes[0];
+forma2.appendChild(dostavljaciSelDiv);
 
 function dobijDostlj(){
     fetch("https://localhost:5001/Cvecara/DobijDostavljaca/"+dostavljaciSel.options[dostavljaciSel.selectedIndex].value,{ method: "GET"}).then(s=>{
@@ -213,7 +243,6 @@ function dobijDostlj(){
     }).catch(err=>{
             alert(err);
         });
-        return;
 }
 var dugmeSest = document.createElement("button");
 dugmeSest.innerText = "Dobij dostavljaca!";
@@ -225,10 +254,9 @@ dugmeSedam.innerText = "Izmeni dostavljaca!";
 dugmeSedam.onclick = function(){
     fetch("https://localhost:5001/Cvecara/PromeniDostavljaca/"+dostavljaciSel.options[dostavljaciSel.selectedIndex].value+"/"+input4.value,{ method: "PUT"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Dostavljaci(s.id, s.ime);
-                cv.crtaj(prazno2);
-                alert("Izmenjen dostavljac!");
+            s.text().then(s=>{
+                dobijDostlj();
+                alert(s);
             })
         }
         else{ alert(s.status); }
@@ -243,15 +271,14 @@ forma2.appendChild(dugmeSedam);
 var dugmeOsam = document.createElement("button");
 dugmeOsam.innerText = "Obrisi dostavljaca!";
 dugmeOsam.onclick = function(){
+    dobijDostlj();
     fetch("https://localhost:5001/Cvecara/IzbrisiDostavljaca/"+dostavljaciSel.options[dostavljaciSel.selectedIndex].value,{ method: "DELETE"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Dostavljaci(s.id, s.ime);
-                cv.crtaj(prazno2);
-                alert("Izbrisan dostavljac!");
+            s.text().then(s=>{
+                alert(s);
             })
         }
-        else{ alert(s.status); }
+        else{ alert(s); }
     }).catch(err=>{
             alert(err);
         });
@@ -262,11 +289,12 @@ forma2.appendChild(dugmeOsam);
 var prazno2 = document.createElement("p");
 forma2.appendChild(prazno2);
 
-document.body.appendChild(forma2);
+bigDiv.appendChild(forma2);
 
 /* KRAJ DOSTAVLJACA POCETAK ZAPOSLENIH */
 
 var forma3 = document.createElement("div");
+forma3.className = "formKlasa";
 
 var labela5 = document.createElement("label");
 labela5.innerHTML = "JMBG: ";
@@ -304,8 +332,6 @@ forma3.appendChild(input8);
 var br12 = document.createElement("p");
 forma3.appendChild(br12);
 forma3.appendChild(labela9);
-var br13 = document.createElement("p");
-forma3.appendChild(br13);
 
 var cvecSel2 = document.createElement("select");
 forma3.appendChild(cvecSel2);
@@ -329,15 +355,14 @@ forma3.appendChild(br14);
 var dugmeDevet = document.createElement("button");
 dugmeDevet.innerHTML = "Dodaj zaposlenog!";
 dugmeDevet.onclick= function(){
-    fetch("https://localhost:5001/Cvecara/DodajZaposlenog/"+cvecSel2.options[cvecSel2.selectedIndex].value+"/"+input5.value+"/"+input7.value+"/"+input8.value+"/"+input6.value,{ method: "POST"}).then(s=>{
+    fetch("https://localhost:5001/Cvecara/DodajZaposlenog/"+cvecSel2.options[cvecSel2.selectedIndex].value+"/"+input5.value+"/"+input7.value+"/"+input8.value+"/"+input6.value,{
+        method: "POST"}).then(s=>{
         if(s.ok){
-            s.json().then(data=>{
-                let cv = new Zaposleni(data.id, data.jmbg, data.ime, data.prezime, data.grad, data.cvecare);
-                cv.crtaj(prazno3);
-                alert("Dodat zaposleni!");
+            s.text().then(s=>{
+                alert(s);
             })
         }
-        else{ alert(s.status); }
+        else{ alert(s); }
     }).catch(err=>{
             alert(err);
         });
@@ -376,7 +401,7 @@ function dobijZap(){
             s.json().then(s=>{
                 let cv = new Zaposleni(s.id, s.jmbg, s.ime, s.prezime, s.grad, s.cvecare);
                 cv.crtaj(prazno3);
-            })
+            });
         }
         else{ alert(s.status); }
     }).catch(err=>{
@@ -393,10 +418,9 @@ forma3.appendChild(dugmeJedanaest);
 dugmeJedanaest.onclick = function(){
     fetch("https://localhost:5001/Cvecara/PromeniZaposlenog/"+zapSel.options[zapSel.selectedIndex].value+"/"+cvecSel2.options[cvecSel2.selectedIndex].value+"/"+input5.value+"/"+input7.value+"/"+input8.value+"/"+input6.value,{ method: "PUT"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Zaposleni(s.id, s.jmbg, s.ime, s.prezime, s.grad, s.cvecare);
-                cv.crtaj(prazno3);
-                alert("Izmenjen zaposleni!");
+            s.text().then(s=>{
+                dobijZap();
+                alert(s);
             })
         }
         else{ alert(s.status); }
@@ -411,12 +435,11 @@ dugmeDvanaest.innerHTML = "Obrisi zaposlenog!";
 forma3.appendChild(dugmeDvanaest);
 
 dugmeDvanaest.onclick = function(){
+    dobijZap();
     fetch("https://localhost:5001/Cvecara/IzbrisiZaposlenog/"+zapSel.options[zapSel.selectedIndex].value,{ method: "DELETE"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Zaposleni(s.id, s.jmbg, s.ime, s.prezime, s.grad, s.cvecare);
-                cv.crtaj(prazno3);
-                alert("Obrisan zaposleni!");
+            s.text().then(s=>{
+                alert(s);
             })
         }
         else{ alert(s.status); }
@@ -428,11 +451,12 @@ dugmeDvanaest.onclick = function(){
 
 var prazno3 = document.createElement("p");
 forma3.appendChild(prazno3);
-document.body.appendChild(forma3);
+bigDiv.appendChild(forma3);
 
 /* KRAJ ZAPOSLENIH POCETAK DOSTAVA */
 
 var forma4 = document.createElement("div");
+forma4.className = "formKlasa";
 var input9 = document.createElement("input");
 input9.type = "text";
 var labela10 = document.createElement("label");
@@ -458,8 +482,6 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
  })
  })
 }})
-var br17 = document.createElement("p");
-forma4.appendChild(br17);
 forma4.appendChild(cvecSel3);
 
 var br18 = document.createElement("p");
@@ -481,8 +503,6 @@ fetch("https://localhost:5001/Cvecara/DobijDostavljace/",{ method: "GET"}).then(
         })
         })
     }})
-var br19 = document.createElement("p");
-forma4.appendChild(br19);
 forma4.appendChild(dostavljaciSel2);
 var br20 = document.createElement("p");
 forma4.appendChild(br20);
@@ -490,13 +510,12 @@ var dugmeTrinaest = document.createElement("button");
 dugmeTrinaest.innerHTML = "Dodaj dostavu!";
 
 dugmeTrinaest.onclick= function(){
-    fetch("https://localhost:5001/Cvecara/DodajDostavu/"+cvecSel3.options[cvecSel3.selectedIndex].value+"/"+dostavljaciSel2.options[dostavljaciSel2.selectedIndex].value+"/"+input9.value,{ method: "POST"}).then(s=>{
+    fetch("https://localhost:5001/Cvecara/DodajDostavu/"+cvecSel3.options[cvecSel3.selectedIndex].value+"/"+dostavljaciSel2.options[dostavljaciSel2.selectedIndex].value+"/"+input9.value,{
+         method: "POST"}).then(s=>{
         if(s.ok){
-            s.json().then(data=>{
-                let cv = new Dostave(data.id, data.brojCveca, data.dostavljaci, data.cvecare);
-                cv.crtaj(prazno4);
-                alert("Dodata dostava!");
-            })
+            s.text().then(s=>{
+                alert(s);
+            });
         }
         else{ alert(s.status); }
     }).catch(err=>{
@@ -537,7 +556,7 @@ function dobijDost(){
             s.json().then(s=>{
                 let cv = new Dostave(s.id, s.brojCveca, s.dostavljaci, s.cvecare);
                 cv.crtaj(prazno4);
-            })
+            });
         }
         else{ alert(s.status); }
     }).catch(err=>{
@@ -554,10 +573,9 @@ forma4.appendChild(dugmePetnaest);
 dugmePetnaest.onclick = function(){
     fetch("https://localhost:5001/Cvecara/PromeniDostavu/"+dostavaSel.options[dostavaSel.selectedIndex].value+"/"+cvecSel3.options[cvecSel3.selectedIndex].value+"/"+dostavljaciSel2.options[dostavljaciSel2.selectedIndex].value+"/"+input9.value,{ method: "PUT"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Dostave(s.id, s.brojCveca, s.dostavljaci, s.cvecare);
-                cv.crtaj(prazno4);
-                alert("Promenjena dostava!");
+            s.text().then(s=>{
+                dobijDost();
+                alert(s);
             })
         }
         else{ alert(s.status); }
@@ -571,12 +589,11 @@ var dugmeSesnaest = document.createElement("button");
 dugmeSesnaest.innerHTML = "Obrisi dostavu!";
 
 dugmeSesnaest.onclick = function(){
+    dobijDost();
     fetch("https://localhost:5001/Cvecara/IzbrisiDostavu/"+dostavaSel.options[dostavaSel.selectedIndex].value,{ method: "DELETE"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Dostave(s.id, s.brojCveca, s.dostavljaci, s.cvecare);
-                cv.crtaj(prazno4);
-                alert("Dostava obrisana!");
+            s.text().then(s=>{
+                alert(s);
             })
         }
         else{ alert(s.status); }
@@ -588,11 +605,12 @@ dugmeSesnaest.onclick = function(){
 forma4.appendChild(dugmeSesnaest);
 var prazno4 = document.createElement("p");
 forma4.appendChild(prazno4);
-document.body.appendChild(forma4);
+bigDiv.appendChild(forma4);
 
 /* KRAJ DOSTAVA */
 
 var forma5 = document.createElement("div");
+forma5.className = "formKlasa";
 var input10 = document.createElement("input");
 input10.type = "text";
 var labela13 = document.createElement("label");
@@ -613,7 +631,7 @@ forma5.appendChild(br27);
 var labela17 = document.createElement("label");
 labela17.innerHTML = "Datum: ";
 var input13 = document.createElement("input");
-input13.type = "date";
+input13.type = "datetime-local";
 forma5.appendChild(labela17);
 forma5.appendChild(input13);
 var br28 = document.createElement("p");
@@ -646,8 +664,6 @@ fetch("https://localhost:5001/Cvecara/DobijCvecare/",{ method: "GET"}).then(s=>{
 var br24 = document.createElement("p");
 forma5.appendChild(br24);
 forma5.appendChild(labela15);
-var br25 = document.createElement("p");
-forma5.appendChild(br25);
 forma5.appendChild(cvecSel4);
 
 var br25 = document.createElement("p");
@@ -660,13 +676,11 @@ forma5.appendChild(dugmeSedamnaest);
 dugmeSedamnaest.onclick= function(){
     fetch("https://localhost:5001/Cvecara/DodajKupovinu/"+input10.value+"/"+input12.value+"/"+input13.value+"/"+input11.value+"/"+cvecSel4.options[cvecSel4.selectedIndex].value,{ method: "POST"}).then(s=>{
         if(s.ok){
-            s.json().then(data=>{
-                let cv = new Kupovina(data.id, data.brojKupljenogCveca, data.imeKupca, data.datum, data.potrosenNovac, data.cvecare);
-                cv.crtaj(prazno5);
-                alert("Kupovina dodata!");
+            s.text().then(s=>{
+                alert(s);
             })
         }
-        else{ alert(s.status); }
+        else{ alert(s); }
     }).catch(err=>{
             alert(err);
         });
@@ -702,8 +716,8 @@ forma5.appendChild(dugmeOsamnaest);
 function dobijKup(){
     fetch("https://localhost:5001/Cvecara/DobijKupovinu/"+kupSel.options[kupSel.selectedIndex].value,{ method: "GET"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Kupovina(s.id, s.brojKupljenogCveca, s.imeKupca, s.datum, s.potrosenNovac, s.cvecare);
+            s.json().then(data=>{
+                let cv = new Kupovina(data.id, data.brojKupljenogCveca, data.imeKupca, data.datum, data.potrosenNovac, data.cvecare);
                 cv.crtaj(prazno5);
             })
         }
@@ -722,10 +736,9 @@ forma5.appendChild(dugmeDevetnaest);
 dugmeDevetnaest.onclick = function(){
     fetch("https://localhost:5001/Cvecara/PromeniKupovinu/"+kupSel.options[kupSel.selectedIndex].value+"/"+input10.value+"/"+input12.value+"/"+input13.value+"/"+input11.value+"/"+cvecSel4.options[cvecSel4.selectedIndex].value,{ method: "PUT"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Kupovina(s.id, s.brojKupljenogCveca, s.imeKupca, s.prezimeKupca, s.potrosenNovac, s.cvecare);
-                cv.crtaj(prazno5);
-                alert("Kupovina promenjena!");
+            s.text().then(s=>{
+                dobijKup();
+                alert(s);
             })
         }
         else{ alert(s.status); }
@@ -740,12 +753,11 @@ dugmeDvadeset.innerHTML = "Obrisi kupovinu!";
 forma5.appendChild(dugmeDvadeset);
 
 dugmeDvadeset.onclick = function(){
+    dobijKup();
     fetch("https://localhost:5001/Cvecara/IzbrisiKupovinu/"+kupSel.options[kupSel.selectedIndex].value,{ method: "DELETE"}).then(s=>{
         if(s.ok){
-            s.json().then(s=>{
-                let cv = new Kupovina(s.id, s.brojKupljenogCveca, s.imeKupca, s.prezimeKupca, s.potrosenNovac, s.cvecare);
-                cv.crtaj(prazno5);
-                alert("Kupovina obrisana!");
+            s.text().then(s=>{
+                alert(s);
             })
         }
         else{ alert(s.status); }
@@ -757,4 +769,8 @@ dugmeDvadeset.onclick = function(){
 
 var prazno5 = document.createElement("p");
 forma5.appendChild(prazno5);
-document.body.appendChild(forma5);
+bigDiv.appendChild(forma5);
+document.body.appendChild(bigDiv);
+var futer = document.createElement("footer");
+futer.innerHTML = "Skolska 2021/2022 godina.";
+document.body.appendChild(futer);

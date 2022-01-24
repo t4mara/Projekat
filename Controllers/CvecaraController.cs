@@ -43,7 +43,7 @@ namespace Projekat.Controllers
             }
             catch (Exception e)
             {
-                                Console.WriteLine(e.InnerException.Message);
+                Console.WriteLine(e.InnerException.Message);
                 return BadRequest(e.Message);
             }
         }
@@ -137,7 +137,8 @@ namespace Projekat.Controllers
             cvecare.Ime = Ime;
             cvecare.Grad = Grad;
             cvecare.BrojCveca = BrojCveca;
-            
+            try
+            {                           
             if (cvecare == null)
             {
                 throw new ArgumentNullException(nameof(cvecare));
@@ -147,12 +148,9 @@ namespace Projekat.Controllers
             {
                 return BadRequest("Neprikladni argumenti");
             }
-
-            try
-            {
                 kontekst.Cvecare.Add(cvecare);
                 await kontekst.SaveChangesAsync();
-                return Ok(cvecare);
+                return Ok($"Dodata je cvecara {Ime}!");
             }
             catch (Exception e)
             {
@@ -179,7 +177,7 @@ namespace Projekat.Controllers
             {
                 kontekst.Dostavljaci.Add(dostavljaci);
                 await kontekst.SaveChangesAsync();
-                return Ok(dostavljaci);
+                return Ok($"Dodat dostavljac {Ime}!");
             }
             catch (Exception e)
             {
@@ -196,22 +194,19 @@ namespace Projekat.Controllers
                 var cvecara = await kontekst.Cvecare.FindAsync(IDCvecare);
                 var dostavljac = await kontekst.Dostavljaci.FindAsync(IDDostavljaca);
 
-            if (brojCveca > 10000 || IDDostavljaca <= 0 || IDCvecare <= 0)
+            if (cvecara == null || dostavljac == null || brojCveca > 10000 || IDDostavljaca <= 0 || IDCvecare <= 0)
             {
                 return BadRequest("Lose");
             }
 
-                Dostave dostava = new Dostave
-                {
-                    Cvecare = cvecara,
-                    Dostavljaci = dostavljac,
-                    BrojCveca = brojCveca
-                };
+                Dostave dostava = new Dostave();
+                    dostava.Cvecare = cvecara;
+                    dostava.Dostavljaci = dostavljac;
+                    dostava.BrojCveca = brojCveca;
 
                 kontekst.Dostave.Add(dostava);
                 await kontekst.SaveChangesAsync();
-
-                return Ok(dostava);
+                return Ok($"Dodata dostava!");
             }
             catch (Exception e)
             {
@@ -239,7 +234,7 @@ namespace Projekat.Controllers
             {
                 kontekst.Kupovina.Add(kupovina);
                 await kontekst.SaveChangesAsync();
-                return Ok(kupovina);
+                return Ok($"Dodata kupovina od {PotrosenNovac} dinara!");
             }
             catch (Exception e)
             {
@@ -247,29 +242,27 @@ namespace Projekat.Controllers
                 return BadRequest(e.Message);
             }
          }
-        [Route("DodajZaposlenog/{IDCvecare}/{jmbg}/{ime}/{prezime}/{grad}")]
+        [Route("DodajZaposlenog/{IDCvecare}/{JMBG}/{Ime}/{Prezime}/{Grad}")]
         [HttpPost]
         public async Task<ActionResult> DodajZaposlenog (int IDCvecare, string JMBG, string Ime, string Prezime, string Grad){
             try
             {
-            if (Ime.Length > 20 || Prezime.Length > 20 || JMBG.Length != 13 || !(double.TryParse(JMBG, out _)) || Grad.Length > 20 || IDCvecare <= 0)
-            {
-                return BadRequest("Lose");
-            }
-                var cvecara = await kontekst.Cvecare.FindAsync(IDCvecare);
-                Zaposleni zaposleni = new Zaposleni
-                {
-                    Cvecare = cvecara,
-                    JMBG = JMBG,
-                    Ime = Ime,
-                    Prezime = Prezime,
-                    Grad = Grad
-                };
-
+            var cvecara = await kontekst.Cvecare.FindAsync(IDCvecare);
+            if (cvecara == null){ return BadRequest("Cvecara je null!"); }
+             if(Ime.Length > 20){ return BadRequest("Ime predugo!"); }
+              if(Prezime.Length > 20){ return BadRequest("Prezime predugo!"); }
+              if(Grad.Length > 20){ return BadRequest("Predug grad!"); }
+              if (IDCvecare <= 0) {return BadRequest("Los ID cvecare!");}
+             if(JMBG.Length != 13){ return BadRequest("JMBG los!");}
+                Zaposleni zaposleni = new Zaposleni();
+                    zaposleni.Cvecare = cvecara;
+                    zaposleni.JMBG = JMBG;
+                    zaposleni.Ime = Ime;
+                    zaposleni.Prezime = Prezime;
+                    zaposleni.Grad = Grad;
                 kontekst.Zaposleni.Add(zaposleni);
                 await kontekst.SaveChangesAsync();
-
-                return Ok(zaposleni);
+                return Ok($"Dodat je zaposleni sa JMBG-om {JMBG}!");
             }
             catch (Exception e)
             {
@@ -306,7 +299,7 @@ namespace Projekat.Controllers
                 kontekst.Cvecare.Update(cvecare);
 
                 await kontekst.SaveChangesAsync();
-                return Ok(cvecare);
+                return Ok($"Promenjena je cvecara {Ime}!");
             }
             catch (Exception e)
             {
@@ -340,7 +333,7 @@ namespace Projekat.Controllers
                 kontekst.Dostavljaci.Update(dostavljaci);
 
                 await kontekst.SaveChangesAsync();
-                return Ok(dostavljaci);
+                return Ok($"Promenjen je dostavljac {Ime}!");
             }
             catch (Exception e)
             {
@@ -379,7 +372,7 @@ namespace Projekat.Controllers
                 kontekst.Dostave.Update(dostava);
 
                 await kontekst.SaveChangesAsync();
-                return Ok(dostava);
+                return Ok($"Promenjena je dostava {BrojCveca}!");
             }
             catch (Exception e)
             {
@@ -417,7 +410,7 @@ namespace Projekat.Controllers
                 kontekst.Kupovina.Update(kupovina);
 
                 await kontekst.SaveChangesAsync();
-                return Ok(kupovina);
+                return Ok($"Promenjena je kupovina {ImeKupca}!");
             }
             catch (Exception e)
             {
@@ -425,7 +418,7 @@ namespace Projekat.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [Route("PromeniZaposlenog/{ID}/{IDCvecare}/{jmbg}/{ime}/{prezime}/{grad}")]
+        [Route("PromeniZaposlenog/{ID}/{IDCvecare}/{JMBG}/{Ime}/{Prezime}/{Grad}")]
         [HttpPut]
         public async Task<ActionResult> PromeniZaposlenog(int ID, int IDCvecare, string JMBG, string Ime, string Prezime, string Grad)
         {
@@ -436,7 +429,7 @@ namespace Projekat.Controllers
                 return BadRequest("Pogrešan ID!");
             }
 
-            if (Ime.Length > 20 || Prezime.Length > 20 || JMBG.Length != 13 || !(double.TryParse(JMBG, out _)) || Grad.Length > 20 || IDCvecare <= 0)
+            if (Ime.Length > 20 || Prezime.Length > 20 || JMBG.Length != 13 || Grad.Length > 20 || IDCvecare <= 0)
             {
                 return BadRequest("Lose");
             }
@@ -456,7 +449,7 @@ namespace Projekat.Controllers
                 kontekst.Zaposleni.Update(zaposleni);
 
                 await kontekst.SaveChangesAsync();
-                return Ok(zaposleni);
+                return Ok($"Promenjen je zaposleni {JMBG}!");
             }
             catch (Exception e)
             {
@@ -521,7 +514,6 @@ namespace Projekat.Controllers
                     BrojCveca = p.BrojCveca,
                     Cvecare = p.Cvecare,
                     Dostavljaci = p.Dostavljaci
-
                 }).FirstOrDefaultAsync());
             }
             catch (Exception e)
@@ -592,14 +584,14 @@ namespace Projekat.Controllers
 
             try
             {
-                var cvecare = await kontekst.Cvecare.FindAsync(id);
+                Cvecare cvecare = await kontekst.Cvecare.FindAsync(id);
              if (cvecare == null)
             {
                 return BadRequest("Pogrešan ID!");
             }
                 kontekst.Cvecare.Remove(cvecare);
                 await kontekst.SaveChangesAsync();
-                return Ok(cvecare);
+                return Ok($"Izbrisana je cvecara!");
             }
             catch (Exception e)
             {
@@ -618,14 +610,14 @@ namespace Projekat.Controllers
 
             try
             {
-                var dostavljac = await kontekst.Dostavljaci.FindAsync(id);
+                Dostavljaci dostavljac = await kontekst.Dostavljaci.FindAsync(id);
             if (dostavljac == null)
             {
                 return BadRequest("Pogrešan ID!");
             }
                 kontekst.Dostavljaci.Remove(dostavljac);
                 await kontekst.SaveChangesAsync();
-                return Ok(dostavljac);
+                return Ok($"Obrisan je dostavljac!");
             }
             catch (Exception e)
             {
@@ -644,14 +636,14 @@ namespace Projekat.Controllers
 
             try
             {
-                var dostava = await kontekst.Dostave.FindAsync(id);
+                Dostave dostava = await kontekst.Dostave.FindAsync(id);
             if (dostava == null)
             {
                 return BadRequest("Pogrešan ID!");
             }
                 kontekst.Dostave.Remove(dostava);
                 await kontekst.SaveChangesAsync();
-                return Ok(dostava);
+                return Ok($"Obrisana je dostava!");
             }
             catch (Exception e)
             {
@@ -670,14 +662,14 @@ namespace Projekat.Controllers
 
             try
             {
-                var kupovina = await kontekst.Kupovina.FindAsync(id);
-                             if (kupovina == null)
+                Kupovina kupovina = await kontekst.Kupovina.FindAsync(id);
+            if (kupovina == null)
             {
                 return BadRequest("Pogrešan ID!");
             }
                 kontekst.Kupovina.Remove(kupovina);
                 await kontekst.SaveChangesAsync();
-                return Ok(kupovina);
+                return Ok($"Izbrisana je kupovina!");
             }
             catch (Exception e)
             {
@@ -697,13 +689,13 @@ namespace Projekat.Controllers
             try
             {
                 var zaposleni = await kontekst.Zaposleni.FindAsync(id);
-                             if (zaposleni == null)
+            if (zaposleni == null)
             {
                 return BadRequest("Pogrešan ID!");
             }
                 kontekst.Zaposleni.Remove(zaposleni);
                 await kontekst.SaveChangesAsync();
-                return Ok(zaposleni);
+                return Ok($"Izbrisani zaposleni!");
             }
             catch (Exception e)
             {

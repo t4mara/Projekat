@@ -15,7 +15,7 @@ h2{
     color:whitesmoke;
     font-style: bold;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
-    background-image:url("https://i.pinimg.com/564x/b0/5c/fd/b05cfd1cd103f205443bd69efd3e13b6.jpg");
+    background-image:url("https://i.pinimg.com/originals/1f/19/5f/1f195fd224b0ba6c3b5f94851f799ce6.png");
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
@@ -33,7 +33,7 @@ h2{
 nav{
     font-family:pixely;
     background-color: white;
-    background-image: url("https://i.pinimg.com/564x/b0/5c/fd/b05cfd1cd103f205443bd69efd3e13b6.jpg");
+    background-image: url("https://i.pinimg.com/originals/1f/19/5f/1f195fd224b0ba6c3b5f94851f799ce6.png");
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -58,23 +58,28 @@ nav{
 }
 header{
     display: flex;
+    flex-direction:column;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content:center;
+    flex-basis:auto;
 }
 footer{
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content:flex-end;
+    align-items:flex-end;
+    justify-content:space-between;
 }
-.futerKlasa{
-    font-family: pixely;
-    font-family: 10px;
-    color: rgb(27, 64, 17);
-    align-self: center;
-    padding: 1px 1px 1px 1px;
-    margin: 1px 5px 1px 5px;
+.formKlasa{
+    display: flex;
+    flex-wrap: wrap;
+    align-items:stretch;
+    flex-basis: auto;
+    flex-direction:column;
+    font-family: Arial, Helvetica, sans-serif;
+    align-self:stretch;
+    padding: 30px 30px 30px 30px;
+    margin: 3px 3px 3px 3px;
 }
 a{
 text-decoration:none;
@@ -111,4 +116,11 @@ button{
 }
 button:hover{
     transform: translateY(-10px);
+}
+.kontejner{
+    display: flex;
+    flex-wrap: wrap;
+    align-items:stretch;
+    justify-content:space-evenly;
+    background-image:url("https://i.pinimg.com/originals/1f/19/5f/1f195fd224b0ba6c3b5f94851f799ce6.png");
 }

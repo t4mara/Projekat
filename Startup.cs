@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using System.Text.Json.Serialization;
 
 namespace Projekat
 {
@@ -33,6 +34,7 @@ namespace Projekat
                 options.UseSqlServer(Configuration.GetConnectionString("CvecareCS"));
             }
             );
+            
             services.AddControllers();            
 
             services.AddSwaggerGen(c =>
