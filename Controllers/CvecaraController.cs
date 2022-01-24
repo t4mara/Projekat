@@ -470,7 +470,7 @@ namespace Projekat.Controllers
 
             try
             {
-                var cvecara = await kontekst.Cvecare.Where(acc=>acc.ID==id).FirstOrDefaultAsync();
+                var cvecara = await kontekst.Cvecare.Where(acc=>acc.ID==id).ToListAsync();
                 return Ok(cvecara);
             }
             catch (Exception e)
@@ -490,7 +490,8 @@ namespace Projekat.Controllers
 
             try
             {
-                return Ok(await kontekst.Dostavljaci.FindAsync(id));
+                var dostavljac = await kontekst.Dostavljaci.Where(acc=>acc.ID==id).ToListAsync();
+                return Ok(dostavljac);
             }
             catch (Exception e)
             {
@@ -514,7 +515,7 @@ namespace Projekat.Controllers
                     BrojCveca = p.BrojCveca,
                     Cvecare = p.Cvecare,
                     Dostavljaci = p.Dostavljaci
-                }).FirstOrDefaultAsync());
+                }).ToListAsync());
             }
             catch (Exception e)
             {
@@ -539,7 +540,7 @@ namespace Projekat.Controllers
                     Datum = p.Datum,
                     PotrosenNovac = p.PotrosenNovac,
                     Cvecare = p.Cvecare
-                }).FirstOrDefaultAsync());
+                }).ToListAsync());
             }
             catch (Exception e)
             {
@@ -564,7 +565,7 @@ namespace Projekat.Controllers
                     Prezime = p.Prezime,
                     Grad = p.Grad,
                     Cvecare = p.Cvecare,
-                }).FirstOrDefaultAsync());
+                }).ToListAsync());
             }
             catch (Exception e)
             {
