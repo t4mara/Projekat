@@ -73,13 +73,14 @@ footer{
 .formKlasa{
     display: flex;
     flex-wrap: wrap;
-    align-items:stretch;
-    flex-basis: auto;
+    align-items: stretch;
+    flex-basis:auto;
     flex-direction:column;
+    justify-content:flex-start;
     font-family: Arial, Helvetica, sans-serif;
     align-self:stretch;
     padding: 30px 30px 30px 30px;
-    margin: 3px 3px 3px 3px;
+    margin: 1px 1px 1px 1px;
 }
 a{
 text-decoration:none;
@@ -100,11 +101,9 @@ a:hover, a:focus
 }
 
 div{
+    background-color:antiquewhite;
     padding: 10px;
     margin: 10px;
-    background-color: whitesmoke;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     border: 1px dotted rgb(27, 64, 17);
     opacity: .8;
 }
@@ -112,12 +111,16 @@ button{
     font-family: pixely;
     background-color:rgb(233, 130, 156);
     transition: transform 250ms;
-
+    padding: 5px;
+    margin: 5px;
 }
 button:hover{
     transform: translateY(-10px);
 }
 .kontejner{
+    background-color: #ffffff10;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: flex;
     flex-wrap: wrap;
     align-items:stretch;
