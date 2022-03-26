@@ -38,7 +38,10 @@ namespace Projekat.Controllers
                 new
                 {
                     ID = p.ID,
-                    Ime = p.Ime
+                    Ime = p.Ime,
+                    Dostave = p.Dostave,
+                    BrojCveca = p.BrojCveca,
+                    Grad = p.Grad
                 }).ToListAsync());
             }
             catch (Exception e)
@@ -119,7 +122,9 @@ namespace Projekat.Controllers
                 new
                 {
                     JMBG = p.JMBG, 
-                    ID = p.ID
+                    ID = p.ID,
+                    Ime = p.Ime,
+                    Prezime = p.Prezime
                 }).ToListAsync());
             }
             catch (Exception e)

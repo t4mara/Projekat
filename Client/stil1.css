@@ -5,6 +5,10 @@
 
 
 body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     background: rgb(131,58,180);
     background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
     cursor: crosshair;  
@@ -25,6 +29,16 @@ h2{
     font-size: 50px;
 }
 
+.navi{
+    display: flex;
+    flex-wrap:wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-image:url("https://i.pinimg.com/originals/1f/19/5f/1f195fd224b0ba6c3b5f94851f799ce6.png");
+    padding: 50px;
+}
+
 .klasa1{
     color:rgb(27, 64, 17);
     font-family:pixely;
@@ -43,6 +57,7 @@ nav{
     /*align-items: stretch;*/
     /*align-content: center;*/
     flex-basis: auto;
+    padding: 20px;
 
     /*margin i padding*/
     /*flex-grow: 0; align-self: flex-end;*/
